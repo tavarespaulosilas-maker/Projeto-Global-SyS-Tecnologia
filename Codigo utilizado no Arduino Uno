@@ -1,0 +1,41 @@
+// Definição de Pinos (Filtro para não contar a mesma pessoa)
+const int TRIG1 = 12; // Sensor Entrada
+const int ECHO1 = 13; 
+const int TRIG2 = 10; // Sensor Saída
+const int ECHO2 = 11; 
+
+int total = 0;
+
+void setup() {
+  pinMode(TRIG1, OUTPUT); pinMode(ECHO1, INPUT);
+  pinMode(TRIG2, OUTPUT); pinMode(ECHO2, INPUT);
+  Serial.begin(9600);
+}
+
+long lerDistancia(int trig, int echo) {
+  digitalWrite(trig, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trig, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trig, LOW);
+  long duracao = pulseIn(echo, HIGH);
+  return duracao * 0.034 / 2;
+}
+
+void loop() {
+  // Lógica de Entrada
+  if (lerDistancia(TRIG1, ECHO1) < 300) {
+    total++;
+    Serial.print("Entrada! Total: ");
+    Serial.println(total);
+    delay(1000); // Filtro de 1 segundo (Debounce)
+  }
+
+  // Lógica de Saída
+  if (lerDistancia(TRIG2, ECHO2) < 100 && total > 0) {
+    total--;
+    Serial.print("Saida! Total: ");
+    Serial.println(total);
+    delay(1000);
+  }
+}
