@@ -1,0 +1,48 @@
+// Definição de Pinos compatíveis com ESP32
+const int TRIG1 = 12; // Sensor Entrada [cite: 9]
+const int ECHO1 = 13; // Sensor Entrada [cite: 10]
+const int TRIG2 = 14; // Sensor Saída (Alterado de 10 para 14 no ESP32)
+const int ECHO2 = 27; // Sensor Saída (Alterado de 11 para 27 no ESP32)
+
+int totalPessoas = 0; // Esta variável guarda a contagem [cite: 11]
+
+void setup() {
+  // Configuração dos pinos [cite: 13, 15, 16, 18]
+  pinMode(TRIG1, OUTPUT); 
+  pinMode(ECHO1, INPUT);
+  pinMode(TRIG2, OUTPUT); 
+  pinMode(ECHO2, INPUT);
+  
+  // No ESP32, o padrão de mercado é 115200, mas 9600 também funciona 
+  Serial.begin(115200); 
+  Serial.println("Sistema de Contagem ESP32 Iniciado...");
+}
+
+long lerDistancia(int trig, int echo) {
+  digitalWrite(trig, LOW); 
+  delayMicroseconds(2); [cite: 26]
+  digitalWrite(trig, HIGH); 
+  delayMicroseconds(10); [cite: 27]
+  digitalWrite(trig, LOW); [cite: 28]
+  
+  // Cálculo da distância em cm [cite: 29]
+  long duracao = pulseIn(echo, HIGH);
+  return duracao * 0.034 / 2; 
+}
+
+void loop() {
+  // Lógica para SOMAR (Entrada) [cite: 30, 31]
+  if (lerDistancia(TRIG1, ECHO1) < 100) { 
+    totalPessoas++; // Adiciona 1 ao contador [cite: 34]
+    Serial.print("Alguem entrou! Total agora: ");
+    Serial.println(totalPessoas);
+    delay(1000); // Debounce: espera a pessoa passar totalmente [cite: 34]
+  }
+
+  // Lógica para SUBTRAIR (Saída) [cite: 35]
+  if (lerDistancia(TRIG2, ECHO2) < 100 && totalPessoas > 0) { 
+    totalPessoas--; // Remove 1 do contador [cite: 37]
+    Serial.print("Alguem saiu! Total agora: ");
+    Serial.println(totalPessoas);
+    delay(1000); // Debounce [cite: 37]
+  }}
