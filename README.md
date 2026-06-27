@@ -1,3 +1,4 @@
+<img width="541" height="268" alt="ESP 32" src="https://github.com/user-attachments/assets/54c5d570-46bd-4ada-a980-7ce702a41533" />
 # 🚀 Global SyS Tecnologia — Monitoramento Inteligente de Fluxo via IoT
 
 > Solução eficiente e de baixo custo baseada em Internet das Coisas (IoT) para automação da contagem de clientes e gestão inteligente de fluxo em lojas de varejo.
@@ -43,3 +44,6 @@ Para a comunicação com a API da TagoIO, os dados são estruturados de forma le
     "status": "Normal"
   }
 }
+<img width="584" height="429" alt="Diagrama" src="https://github.com/user-attachments/assets/b4fe67b5-dc72-4924-a05b-95f60e2b7be5" />
+<img width="541" height="268" alt="ESP 32" src="https://github.com/user-attachments/assets/5f7bafb0-e217-4033-a09d-e193076228d7" />
+<img width="509" height="281" alt="Arduino" src="https://github.com/user-attachments/assets/4374ed97-5943-4c78-acca-3b429c941cc5" />
