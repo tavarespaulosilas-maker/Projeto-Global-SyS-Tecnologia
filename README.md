@@ -46,5 +46,7 @@ Para a comunicação com a API da TagoIO, os dados são estruturados de forma le
 
 }```json
 
+
 <img width="500" height="280" alt="Dashboard" src="https://github.com/user-attachments/assets/3b943d7d-a685-46fe-bf09-24e73094e833" />
-{
+
+Dashboard parecido com a implementação
