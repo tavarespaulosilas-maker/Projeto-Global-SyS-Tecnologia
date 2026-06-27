@@ -1,4 +1,4 @@
-<img width="541" height="268" alt="ESP 32" src="https://github.com/user-attachments/assets/54c5d570-46bd-4ada-a980-7ce702a41533" />
+
 # 🚀 Global SyS Tecnologia — Monitoramento Inteligente de Fluxo via IoT
 
 > Solução eficiente e de baixo custo baseada em Internet das Coisas (IoT) para automação da contagem de clientes e gestão inteligente de fluxo em lojas de varejo.
