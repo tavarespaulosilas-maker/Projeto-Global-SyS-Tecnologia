@@ -1,10 +1,14 @@
-// Definição de Pinos (Filtro para não contar a mesma pessoa)
+// Definição de Pinos
 const int TRIG1 = 12; // Sensor Entrada
 const int ECHO1 = 13; 
 const int TRIG2 = 10; // Sensor Saída
 const int ECHO2 = 11; 
 
 int total = 0;
+
+const unsigned long INTERVALO_FILTRO = 1000; // cooldown de 1s por sensor
+unsigned long ultimaEntrada = 0;
+unsigned long ultimaSaida = 0;
 
 void setup() {
   pinMode(TRIG1, OUTPUT); pinMode(ECHO1, INPUT);
@@ -18,24 +22,32 @@ long lerDistancia(int trig, int echo) {
   digitalWrite(trig, HIGH);
   delayMicroseconds(10);
   digitalWrite(trig, LOW);
-  long duracao = pulseIn(echo, HIGH);
+
+  // timeout de 30ms (~5m de alcance) evita que pulseIn trave esperando eco
+  long duracao = pulseIn(echo, HIGH, 30000);
+  if (duracao == 0) return -1; // nenhum eco detectado dentro do timeout
+
   return duracao * 0.034 / 2;
 }
 
 void loop() {
+  unsigned long agora = millis();
+
   // Lógica de Entrada
-  if (lerDistancia(TRIG1, ECHO1) < 300) {
+  long distEntrada = lerDistancia(TRIG1, ECHO1);
+  if (distEntrada > 0 && distEntrada < 300 && (agora - ultimaEntrada >= INTERVALO_FILTRO)) {
     total++;
+    ultimaEntrada = agora;
     Serial.print("Entrada! Total: ");
     Serial.println(total);
-    delay(1000); // Filtro de 1 segundo (Debounce)
   }
 
   // Lógica de Saída
-  if (lerDistancia(TRIG2, ECHO2) < 100 && total > 0) {
+  long distSaida = lerDistancia(TRIG2, ECHO2);
+  if (distSaida > 0 && distSaida < 100 && total > 0 && (agora - ultimaSaida >= INTERVALO_FILTRO)) {
     total--;
+    ultimaSaida = agora;
     Serial.print("Saida! Total: ");
     Serial.println(total);
-    delay(1000);
   }
 }
